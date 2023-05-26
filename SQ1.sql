@@ -227,3 +227,10 @@ AND n.noFourn = a.noFourn
 GROUP BY a.noFourn
 
 
+-- exerccice 5
+-- a)Ajouter un nouveau fournisseur avec les attributs de votre choix
+INSERT INTO `fourniseur` ( `nomF`, `status`, `villeF`) VALUES ( 'peugeot', 'inconus', 'mulhouse');
+-- b)Supprimer tous les produits de couleur noire et de numéros compris entre 100 et 1999
+DELETE FROM `produit` WHERE `numP` BETWEEN 100 AND 1999 AND `couleur` = 'noir'
+-- c)Changer la ville du fournisseur 3 par Mulhouse
+UPDATE `fourniseur` SET `villeF` = 'Mulhouse' WHERE `fourniseur`.`numF` = 3;
