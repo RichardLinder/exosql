@@ -234,3 +234,45 @@ INSERT INTO `fourniseur` ( `nomF`, `status`, `villeF`) VALUES ( 'peugeot', 'inco
 DELETE FROM `produit` WHERE `numP` BETWEEN 100 AND 1999 AND `couleur` = 'noir'
 -- c)Changer la ville du fournisseur 3 par Mulhouse
 UPDATE `fourniseur` SET `villeF` = 'Mulhouse' WHERE `fourniseur`.`numF` = 3;
+
+
+
+-- exerccice 4
+
+
+-- a)Liste de tous les étudiants
+SELECT  nume_etu ,nom, prenoms  FROM `etudiant`
+-- b)Liste de tous les étudiants, classée par ordre alphabétique inverse
+SELECT  nume_etu ,nom, prenoms  FROM `etudiant` ORDER BY nom DESC
+-- c)Libellé et coefficient (exprimé en pourcentage) de chaque matière
+
+-- d)Nom etprénom de chaque étudiant
+SELECT nom prenoms FROM `etudiant` 
+-- e)Nom et prénom des étudiants domiciliés à Lyon
+SELECT nom prenoms FROM `etudiant` WHERE ville ="lyon"
+-- f)Liste des notes supérieures ou égales à 10
+SELECT note  FROM `notation` WHERE `note` >= 10
+
+-- g)Liste des épreuves dont la date se situe entre le 1er janvier et le 30juin 2014
+SELECT lieu, date_epreuve, num_epreuve FROM `epreuve` WHERE `date_epreuve` BETWEEN '2014-01-01' AND '2014-06-30'
+
+-- h)Nom, prénom et ville des étudiants dont la ville contient la chaîne "ll"(LL)
+SELECT nom, prenoms, ville FROM `etudiant` WHERE `ville` LIKE '%ll%'
+
+-- i)Prénoms des étudiants de nom Dupont, Durand ou Martin
+SELECT prenoms  FROM `etudiant` WHERE `nom` LIKE 'Dupont' or 'Durand' or 'Martin'
+-- j)Somme des coefficients de toutes les matières
+SELECT SUM(coef) FROM `matiere`
+-- k)Nombre total d'épreuves
+SELECT COUNT(num_epreuve) FROM `epreuve`
+-- l)Nombre de notes indéterminées (NULL)
+SELECT * FROM `notation` WHERE `note` = 0
+
+-- m)Liste des épreuves (numéro, date et lieu) incluant le libellé de la matière
+-- n)Liste des notes en précisant pour chacune le nom et le prénom de l'étudiant qui l'a obtenue
+-- o)Liste des notes en précisant pour chacune le nom et le prénom de l'étudiant qui l'a obtenue et le libellé de la matière concernée
+-- p)Nom et prénom des étudiants qui ont obtenu au moins une note égale à 20
+-- q)Moyennes des notes de chaque étudiant (indiquer le nom et le prénom)
+-- r)Moyennes des notes de chaque étudiant (indiquer le nom et le prénom), classées de la meilleure à la moins bonne
+-- s)Moyennes des notes pour les matières(indiquer le libellé) comportant plus d'une épreuve
+-- t)Moyennes des notes obtenues aux épreuves (indiquer le numéro d'épreuve) où moins de 6 étudiants ont été notés
