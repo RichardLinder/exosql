@@ -304,6 +304,33 @@ ORDER BY moyen DESC
 
 
 -- s)Moyennes des notes pour les matières(indiquer le libellé) comportant plus d'une épreuve
+-- decomposé ?
+CREATE OR REPLACE VIEW les_epreuce_de AS
+SELECT m.libelle , COUNT(e.num_epreuve) AS nomb_epreuve
+FROM matiere m , epreuve e
+WHERE  m.code_mat = e.code_mat
+
+
+SELECT m.libelle, AVG(n.note) AS moyenne_matiere
+FROM les_epreuce_de l, etudiant e, matiere m, epreuve p, notation n 
+WHERE m.code_mat = p.code_mat
+AND p.num_epreuve =n.num_epreuve
+AND n.nume_etu = e.nume_etu
+AND m.libelle =l.libelle
+AND l.nomb_epreuve!= 1
+
+
 
 
 -- t)Moyennes des notes obtenues aux épreuves (indiquer le numéro d'épreuve) où moins de 6 étudiants ont été notés
+
+CREATE OR REPLACE VIEW epreuves_etudiant  AS
+SELECT e.nom, e.prenoms, COUNT(n.nume_etu) AS nomb_etu, n.num_epreuve 
+FROM notation n
+JOIN etudiant e
+on e.nume_etu
+
+SELECT e.nom ,e.prenoms , AVG(n.note), e.nomb_etu
+FROM notation n, epreuves_etudiant e
+WHERE  e.num_epreuve = n.num_epreuve 
+AND e.nomb_etu < 6;
