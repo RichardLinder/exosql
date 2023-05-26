@@ -269,10 +269,41 @@ SELECT COUNT(num_epreuve) FROM `epreuve`
 SELECT * FROM `notation` WHERE `note` = 0
 
 -- m)Liste des épreuves (numéro, date et lieu) incluant le libellé de la matière
+SELECT e.num_epreuve, e.lieu, e.date_epreuve, m.libelle FROM `epreuve` e
+INNER join `matiere` m
+WHERE m.code_mat = e.code_mat;
+
+
 -- n)Liste des notes en précisant pour chacune le nom et le prénom de l'étudiant qui l'a obtenue
+SELECT n.note,  e.prenoms, e.nom FROM `notation` n 
+INNER join etudiant e
+WHERE n.nume_etu = e.nume_etu
 -- o)Liste des notes en précisant pour chacune le nom et le prénom de l'étudiant qui l'a obtenue et le libellé de la matière concernée
+SELECT n.note , e.nom, e.prenoms, m.libelle
+FROM etudiant e, notation n ,  matiere m
+WHERE e.nume_etu =n.nume_etu
+AND n.num_epreuve = n.num_epreuve
+
 -- p)Nom et prénom des étudiants qui ont obtenu au moins une note égale à 20
+SELECT n.note, e.nom,e.prenoms
+FROM etudiant e, notation n
+WHERE e.nume_etu = n.nume_etu
+AND n.nume_etu = 20
+
 -- q)Moyennes des notes de chaque étudiant (indiquer le nom et le prénom)
+SELECT e.nom, e.prenoms, AVG(n.note)
+FROM notation n , etudiant e
+WHERE n.nume_etu = e.nume_etu
+
+
 -- r)Moyennes des notes de chaque étudiant (indiquer le nom et le prénom), classées de la meilleure à la moins bonne
+SELECT e.nom, e.prenoms, AVG(n.note) as moyen
+FROM notation n , etudiant e
+WHERE n.nume_etu = e.nume_etu
+ORDER BY moyen DESC
+
+
 -- s)Moyennes des notes pour les matières(indiquer le libellé) comportant plus d'une épreuve
+
+
 -- t)Moyennes des notes obtenues aux épreuves (indiquer le numéro d'épreuve) où moins de 6 étudiants ont été notés
