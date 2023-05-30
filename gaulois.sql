@@ -72,3 +72,10 @@ JOIN casque c
 ON c.id_type_casque= ct.id_type_casque
 GROUP BY ct.nom_type_casque
 ORDER BY somme DESC;
+-- 12) Nom des potions dont un des ingrédients est le poisson frais.
+SELECT p.nom_potion, i.nom_ingredient FROM `composer` c
+INNER JOIN potion p 
+ON p.id_potion= c.id_potion
+JOIN ingredient i
+ON i.id_ingredient = c.id_ingredient
+WHERE i.nom_ingredient LIKE "Poisson frais"
