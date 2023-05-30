@@ -79,3 +79,40 @@ ON p.id_potion= c.id_potion
 JOIN ingredient i
 ON i.id_ingredient = c.id_ingredient
 WHERE i.nom_ingredient LIKE "Poisson frais"
+-- 13) Nom du / des lieu(x) possédant le plus d'habitants, en dehors du village gaulois.
+SELECT nbr_habitant,  nom_lieu
+from nbr_habitant_par_lieu
+where nbr_habitant =(SELECT MAX(nbr_habitant) as nombre_max  FROM `nbr_habitant_par_lieu` where `nom_lieu` !='Village gaulois');
+-- 14)Nom despersonnagesqui n'ont jamais bu aucunepotion.
+SELECT P.nom_personnage, B.dose_boire FROM `personnage` P
+LEFT JOIN boire b
+ON P.id_personnage = b.id_personnage
+WHERE b.dose_boire IS NULL
+-- 15)Nom du / des personnagesqui n'ont pas le droit de boire de la potion 'Magique'.
+SELECT personnage.nom_personnage, potion.nom_potion FROM `personnage`
+LEFT JOIN autoriser_boire 
+ON personnage.id_personnage = autoriser_boire.id_personnage
+LEFT JOIN potion
+on potion.id_potion = autoriser_boire.id_potion
+WHERE potion.nom_potion NOT LIKE "Magique";
+-- a)
+INSERT INTO `personnage` (`id_personnage`, `nom_personnage`, `adresse_personnage`, `image_personnage`, `id_lieu`, `id_specialite`) 
+VALUES (NULL, 'Champdeblix', '???', 'indisponible.jpg', '1', '17');
+-- b)
+INSERT INTO `autoriser_boire` (`id_potion`, `id_personnage`) VALUES ('1', '12')
+--  déjas fait 
+-- C)
+DELETE FROM `casque` WHERE `casque`.`id_casque` = 20;
+DELETE FROM `casque` WHERE `casque`.`id_casque` = 21;
+DELETE FROM `casque` WHERE `casque`.`id_casque` = 22;
+DELETE FROM `casque` WHERE `casque`.`id_casque` = 23;
+
+-- D)
+UPDATE `personnage` SET `adresse_personnage` = 'prison', `id_lieu` = '9' WHERE `personnage`.`id_personnage` = 23;
+-- E)
+DELETE FROM `composer` WHERE `composer`.`id_potion` = 19;
+-- f)
+UPDATE `prendre_casque` SET `id_casque` = '10', `qte` = '42' 
+WHERE `prendre_casque`.`id_casque` = 14 
+AND `prendre_casque`.`id_personnage` = 5 
+AND `prendre_casque`.`id_bataille` = 9
