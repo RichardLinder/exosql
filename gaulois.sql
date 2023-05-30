@@ -58,7 +58,17 @@ ON b.id_personnage = p.id_personnage
 ORDER BY dose_boire DESC;
 -- 10 Nom de la bataille où le nombre de casques pris a été le plus important
 -- en travaille
-SELECT b.nom_bataille,(p.qte) FROM `prendre_casque` p
+CREATE OR REPLACE VIEW  sommebattaille AS
+SELECT b.nom_bataille,SUM(p.qte) as somme FROM `prendre_casque` p
 JOIN bataille b
 ON p.id_bataille = b.id_bataille
 GROUP BY b.nom_bataille
+
+-- etape 2
+SELECT nom_bataille , MAX(somme) FROM `sommebattaille`;
+-- 10) Combien  existe-t-il  de  casques  de  chaque  type  et  quel  est  leur  coût  total  ?  (classés  par nombre décroissant)
+SELECT c.nom_casque, sum(c.cout_casque) as somme FROM `type_casque` ct
+JOIN casque c
+ON c.id_type_casque= ct.id_type_casque
+GROUP BY ct.nom_type_casque
+ORDER BY somme DESC;
