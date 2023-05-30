@@ -56,3 +56,9 @@ SELECT p.nom_personnage, b.dose_boire FROM `boire` b
 JOIN personnage p
 ON b.id_personnage = p.id_personnage
 ORDER BY dose_boire DESC;
+-- 10 Nom de la bataille où le nombre de casques pris a été le plus important
+-- en travaille
+SELECT b.nom_bataille,(p.qte) FROM `prendre_casque` p
+JOIN bataille b
+ON p.id_bataille = b.id_bataille
+GROUP BY b.nom_bataille
