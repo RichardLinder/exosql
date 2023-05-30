@@ -33,3 +33,10 @@ JOIN ingredient i
 ON i.id_ingredient = c.id_ingredient
 GROUP BY  p.nom_potion  
 ORDER BY `prix` DESC;
+-- 7)Nom des ingrédients + coût + quantité de chaque ingrédient qui composent la potion 'Santé'.
+SELECT i.cout_ingredient, i.nom_ingredient, p.nom_potion FROM `composer` c
+INNER JOIN potion p 
+ON p.id_potion= c.id_potion
+JOIN ingredient i
+ON i.id_ingredient = c.id_ingredient
+WHERE `nom_potion` LIKE 'Santé'
