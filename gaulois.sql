@@ -48,3 +48,11 @@ JOIN personnage per
 ON p.id_personnage = per.id_personnage
 where b.nom_bataille like "Bataille du village gaulois"
 GROUP BY b.nom_bataille;
+
+--  penser a grouper par l'element d'interais 
+
+-- 9)Nom des personnageset leur quantité de potion bue (en les classant du plus grand buveur au plus petit).
+SELECT p.nom_personnage, b.dose_boire FROM `boire` b
+JOIN personnage p
+ON b.id_personnage = p.id_personnage
+ORDER BY dose_boire DESC;
