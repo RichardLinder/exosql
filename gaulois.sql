@@ -40,3 +40,11 @@ ON p.id_potion= c.id_potion
 JOIN ingredient i
 ON i.id_ingredient = c.id_ingredient
 WHERE `nom_potion` LIKE 'Santé'
+-- 8) Nom du ou des personnagesqui ont pris le plus de casques dans la bataille 'Bataille du village gaulois'.
+SELECT per.nom_personnage, b.nom_bataille,   MAX(p.qte) FROM `prendre_casque` p
+JOIN bataille b
+ON b.id_bataille = p.id_bataille
+JOIN personnage per
+ON p.id_personnage = per.id_personnage
+where b.nom_bataille like "Bataille du village gaulois"
+GROUP BY b.nom_bataille;
