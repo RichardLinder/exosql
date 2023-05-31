@@ -82,7 +82,21 @@ GROUP BY b.nom_bataille
 
 -- etape 2
 SELECT nom_bataille , MAX(somme) FROM `sommebattaille`;
--- 10) Combien  existe-t-il  de  casques  de  chaque  type  et  quel  est  leur  coût  total  ?  (classés  par nombre décroissant)
+-- v2================================================================
+SELECT b.nom_bataille,SUM(p.qte) as somme FROM `prendre_casque` p
+JOIN bataille b
+ON p.id_bataille = b.id_bataille
+GROUP BY b.nom_bataille
+HAVING somme >= ALL( 
+SELECT sum(p.qte) 
+FROM prendre_casque p
+JOIN bataille b
+ON b.id_bataille=p.id_bataille
+GROUP BY b.id_bataille
+);
+
+--  a noté que valu = ALL ne marche pas car c'est une boucle
+-- 11) Combien  existe-t-il  de  casques  de  chaque  type  et  quel  est  leur  coût  total  ?  (classés  par nombre décroissant)
 SELECT c.nom_casque, sum(c.cout_casque) as somme FROM `type_casque` ct
 JOIN casque c
 ON c.id_type_casque= ct.id_type_casque
@@ -99,6 +113,22 @@ WHERE i.nom_ingredient LIKE "Poisson frais"
 SELECT nbr_habitant,  nom_lieu
 from nbr_habitant_par_lieu
 where nbr_habitant =(SELECT MAX(nbr_habitant) as nombre_max  FROM `nbr_habitant_par_lieu` where `nom_lieu` !='Village gaulois');
+-- v2 ===============================================================================================================================
+SELECT l.nom_lieu, COUNT(id_personnage) AS habitan_par_lieu
+FROM lieu l
+INNER JOIN personnage p
+ON p.id_lieu = l.id_lieu
+GROUP BY l.nom_lieu	
+HAVING
+habitan_par_lieu >= ALL
+(SELECT COUNT(id_personnage)
+FROM lieu l
+INNER JOIN personnage p
+ON p.id_lieu = l.id_lieu										
+WHERE l.nom_lieu != "Village gaulois"			
+GROUP BY l.id_lieu)		
+AND l.nom_lieu != "Village gaulois"
+ORDER BY l.nom_lieu ASC;
 -- 14)Nom despersonnagesqui n'ont jamais bu aucunepotion.
 SELECT P.nom_personnage, B.dose_boire FROM `personnage` P
 LEFT JOIN boire b
