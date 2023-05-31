@@ -48,7 +48,23 @@ JOIN personnage per
 ON p.id_personnage = per.id_personnage
 where b.nom_bataille like "Bataille du village gaulois"
 GROUP BY b.nom_bataille;
-
+-- v2============================================================================================================================================
+SELECT per.nom_personnage,
+SUM(p.qte) AS total_casque
+FROM prendre_casque p
+INNER JOIN personnage per
+ON  p.id_personnage =per.id_personnage
+INNER JOIN bataille b 
+ON b.id_bataille = p.id_bataille
+WHERE b.nom_bataille = "Bataille du village gaulois"
+GROUP BY per.id_personnage
+HAVING total_casque >= ALL
+(SELECT MAX(p.qte) AS total_casque_maximum 
+FROM prendre_casque p
+JOIN bataille b ON b.id_bataille = p.id_bataille
+WHERE b.nom_bataille = "Bataille du village gaulois"
+GROUP BY id_personnage)
+ORDER BY total_casque DESC;
 --  penser a grouper par l'element d'interais 
 
 -- 9)Nom des personnageset leur quantité de potion bue (en les classant du plus grand buveur au plus petit).
