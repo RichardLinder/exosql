@@ -152,6 +152,15 @@ DELETE FROM `casque` WHERE `casque`.`id_casque` = 20;
 DELETE FROM `casque` WHERE `casque`.`id_casque` = 21;
 DELETE FROM `casque` WHERE `casque`.`id_casque` = 22;
 DELETE FROM `casque` WHERE `casque`.`id_casque` = 23;
+-- automatisation
+DELETE FROM `casque` 
+WHERE `id_casque` in
+(SELECT c.id_casque 
+FROM casque c
+left JOIN prendre_casque p
+ON c.id_casque = p.id_casque
+WHERE p.id_bataille is Null
+AND c.id_type_casque =2); 
 
 -- D)
 UPDATE `personnage` SET `adresse_personnage` = 'prison', `id_lieu` = '9' WHERE `personnage`.`id_personnage` = 23;
