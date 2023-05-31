@@ -26,7 +26,7 @@ join lieu l
 on b.id_lieu=l.id_lieu
 ORDER BY date_bataille DESC;
 -- 6) Nom des potions + coût de réalisation de la potion (trié par coût décroissant)
-SELECT p.nom_potion, (c.qte* i.cout_ingredient) as prix FROM `composer` c
+SELECT p.nom_potion, sum(c.qte* i.cout_ingredient) as prix FROM `composer` c
 INNER JOIN potion p 
 ON p.id_potion= c.id_potion
 JOIN ingredient i
