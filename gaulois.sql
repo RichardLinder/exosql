@@ -147,6 +147,8 @@ ON c.id_casque = p.id_casque
 WHERE p.id_bataille is Null
 AND c.id_type_casque =2); 
 
+--  on peut ausie faire une fouble condition 
+
 -- D)
 UPDATE `personnage` SET `adresse_personnage` = 'prison', `id_lieu` = '9' WHERE `personnage`.`id_personnage` = 23;
 -- E)
